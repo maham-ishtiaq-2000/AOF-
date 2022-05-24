@@ -1,0 +1,27 @@
+#  Template NodeJS build
+
+#  This template allows you to validate your NodeJS code.
+#  The workflow allows running tests and code linting on the default branch.
+
+image: node:10.15.3
+pipelines:
+  branches:
+  
+   master:
+     #    - step:
+#       caches:
+#          - node
+#       script: # Modify the commands below to build your repository.
+#          - npm install 
+#          - npm start
+     - step:
+        name: Deploy to Admin panel to server hostinger professoryapp on commit to master branch
+        deployment: production
+        script:
+          - echo "Deploying to production environment via ssh "
+          - pipe: atlassian/ssh-run:0.2.2
+            variables:
+              SSH_USER: 'root'
+              SERVER: 'professoryapp.com'
+              COMMAND: './scriptTo_deploy_professory_admin.sh'
+              PORT: '7743'
